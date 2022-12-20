@@ -75,8 +75,8 @@ public class AmazonAutomationTesting {
 		driver.findElement(By.xpath("//input[@name='ppw-accountHolderName']")).sendKeys("Aparna E");
 		Select dropdown= new Select(driver.findElement(By.xpath("//span[@id='pp-74jKSP-22']")));
 		dropdown.selectByIndex(10);
-		Select dropdown= new Select(driver.findElement(By.xpath("//span[@id='pp-74jKSP-23']")));
-		dropdown.selectByIndex(22);
+		Select dropdown1= new Select(driver.findElement(By.xpath("//span[@id='pp-74jKSP-23']")));
+		dropdown1.selectByIndex(22);
 		
 		
 
