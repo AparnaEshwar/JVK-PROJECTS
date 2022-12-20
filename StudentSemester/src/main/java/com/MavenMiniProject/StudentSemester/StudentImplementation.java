@@ -1,7 +1,11 @@
 package com.MavenMiniProject.StudentSemester;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class StudentImplementation {
 
@@ -11,13 +15,18 @@ public class StudentImplementation {
 		System.out.println(studentdetails);
 
 		System.out.println("passedStudents");
-		//stdimp.printData(stdimp.passedStudent(studentdetails));
-		//System.out.println("Failed Students");
-		//stdimp.printData(stdimp.getFailedStudents(studentdetails));
+		// stdimp.printData(stdimp.passedStudent(studentdetails));
+		// System.out.println("Failed Students");
+		// stdimp.printData(stdimp.getFailedStudents(studentdetails));
 		System.out.println("Result calculation");
 		stdimp.printData(stdimp.resultcalculation(studentdetails));
 		System.out.println("Highest calculation");
 		stdimp.printData(stdimp.Hightestmarksfromthedept(studentdetails));
+		Map<String, List<Student>> getstudentbydepartment= stdimp.getstudentbydepartment(studentdetails, "CSE");
+		for (Entry<String, List<Student>> student : getstudentbydepartment.entrySet()) {
+			System.out.println(student.getKey()+ " " + student.getValue());
+			
+		}
 
 	}
 
@@ -69,20 +78,44 @@ public class StudentImplementation {
 	}
 
 	public List<Student> Hightestmarksfromthedept(List<Student> studentList) {
-		List<Student> students = new ArrayList<Student>();
-		int highestscore = 0;
+		List<Student> highscorestudents = new ArrayList<Student>();
 
 		for (Student studentData : studentList) {
+			if (highscorestudents.size() == 0) {
+				highscorestudents.add(studentData);
+			} else {
+				Student firstmarks = highscorestudents.get(0);
+				if (firstmarks.g == studentData.getTotal()) {
+					highscorestudents.add(studentData);
+				} else if (firstmarks.getTotal() < studentData.getTotal()) {
+					for (Iterator iterator = highscorestudents.iterator(); iterator.hasNext();) {
+						Student student = (Student) iterator.next();
+						iterator.remove();
 
-			if (studentData.getTotal() > highestscore) {
-				highestscore = studentData.getTotal();
-				students.add(studentData);
+					}
+
+					highscorestudents.add(studentData);
+				}
+
 			}
 		}
-		return studentList;
+		return highscorestudents;
 
 	}
-
+	public Map<String, List<Student>> getstudentbydepartment(List<Student> Studentlist,String department){
+		Map<String,List<Student>> Department= new HashMap<String, List<Student>>();
+		List<Student>listofstudent=new ArrayList<Student>();
+		for (Student student : Studentlist) {
+			if(student.getDept().equalsIgnoreCase(department)) {
+				listofstudent.add(student);
+			}
+			
+		}
+		Department.put(department, listofstudent);
+		return Department;
+		
+	}
+  
 	private List<Student> getpreapareddata() {
 		ArrayList<Subject> student1subject = new ArrayList<>();
 		Subject s1 = new Subject(1, "Data Structure", 56, 1);
